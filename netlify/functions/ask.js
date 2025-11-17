@@ -5,15 +5,18 @@ exports.handler = async function(event, context) {
     const { question } = JSON.parse(event.body);
 
    const apiResponse = await fetch('https://api.perplexity.ai/chat/completions', {
-    method: 'POST',
-    headers: {
-        'Authorization': `Bearer ${process.env.PERPLEXITY_API_KEY}`,
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        model: "sonar-medium-online", // or "sonar-small-online", check your plan/docs
-        messages: [{ role: "user", content: question }]
-    })
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.PERPLEXITY_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    model: "sonar",
+    messages: [
+      { role: "system", content: "Be precise and concise." }, // optional
+      { role: "user", content: question } // required
+    ]
+  })
 });
 
     // Log status for debugging
